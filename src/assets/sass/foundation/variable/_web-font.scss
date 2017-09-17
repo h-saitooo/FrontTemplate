@@ -1,0 +1,18 @@
+// webフォントを使用場合のimportの記述とfont-familyの指定をする。
+// Google Font ⇒ https://fonts.google.com/
+//
+
+/*
+ * web-fontのimport定義
+ */
+// FontAwesome
+// @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+// NotoSans
+// @import url(http://fonts.googleapis.com/earlyaccess/notosansjapanese.css);
+// Roboto
+// @import url(https://fonts.googleapis.com/css?family=Roboto);
+
+/*
+ * オリジナルフォントファミリーの定義
+ */
+// $_font-family-origin-1: 'Roboto', 'Noto Sans Japanese', sans-serif;
