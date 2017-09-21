@@ -141,3 +141,7 @@ pre {
     display: block;
   }
 }
+
+img[src$=".svg"] {
+    width: 100%;
+}
