@@ -23,9 +23,12 @@
 // @import "foundation/mixin/_ratio";
 // @import "foundation/mixin/_box";
 
-@import "layout/_content";
+@import "foundation/base/_normalize";
+@import "foundation/base/_base";
+
 @import "layout/_header";
 @import "layout/_main";
 @import "layout/_section";
+@import "layout/_content";
 @import "layout/_sidebar";
 @import "layout/_footer";

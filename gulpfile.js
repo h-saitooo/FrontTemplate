@@ -131,7 +131,7 @@ gulp.task('reload', () => {
 gulp.task('watch', () => {
 
   watch([PUG_SRC], event => {
-    return gulp.start('cleanHtml', 'pug');
+    return gulp.start('pug');
   });
 
   watch([SASS_SRC], event => {
@@ -139,7 +139,7 @@ gulp.task('watch', () => {
   });
 
   watch([JS_SRC], event => {
-    return gulp.start('cleanJs', 'babel');
+    return gulp.start('babel');
   });
 
   watch([PUG_SRC], event => {
