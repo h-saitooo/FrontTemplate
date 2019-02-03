@@ -1,12 +1,23 @@
-# README #
+# Front End Template
 
-## 内容
-フロントエンド周りの効率化のためのツール
+Frontend Develop Task Template
 
-## 使用パッケージ
-gulp
-pug
-sass
-webpack
-imagemin
+Use: Node.js <= `v8.9.4`
 
+## Use Tools
+
+- gulp4
+- Sass/SCSS
+- Webpack4
+
+## Usage
+
+### Install
+Type this command
+`npm install` or `yarn`
+
+### Launch Task
+`npm run start` or `yarn start`
+
+### Build Task
+`npm run build` or `yarn build`
