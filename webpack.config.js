@@ -1,25 +1,35 @@
 'use strict';
 const path    = require('path');
 const webpack = require('webpack');
+const DEBUG = !process.argv.includes('production');
 
 module.exports = {
-  entry: './src/assets/js/main.js',
+  mode: DEBUG ? 'development' : 'production',
+  entry: ['@babel/polyfill', './src/js/index.js'],
   output: {
-    path: `${__dirname}/dest/assets/js`,
+    path: `${__dirname}/butter/js`,
     filename: 'bundle.js'
   },
+  devtool: false,
   module: {
-    rules: [{
-      test: /\.js$/,
-      use: [{
-        loader: 'babel-loader',
-        options: {
-          presets: [
-            ['env', {'modules': false}]
-          ]
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
         }
-      }]
-    }]
+      }
+    ]
   },
-  devtool: 'source-map'
+  plugins: [
+    new webpack.SourceMapDevToolPlugin({
+      append: DEBUG ? '\n//# sourceMappingURL=[url]' : false,
+      filename: '../sourcemaps/[file].map'
+    }),
+    // new webpack.ProvidePlugin({
+    //   $: 'jquery',
+    //   jQuery: 'jquery'
+    // })
+  ]
 };
