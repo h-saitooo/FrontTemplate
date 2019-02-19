@@ -6,7 +6,7 @@
   "author": "Hiroki Saito",
   "license": "MIT",
   "scripts": {
-    "start": "gulp",
+    "start": "npx gulp",
     "build": "NODE_ENV=production gulp build"
   },
   "devDependencies": {
@@ -28,6 +28,9 @@
     "gulp-sass": "^4.0.2",
     "gulp-watch": "^5.0.1",
     "minimist": "^1.2.0",
+    "stylelint": "^9.10.1",
+    "stylelint-config-recommended-scss": "^3.2.0",
+    "stylelint-scss": "^3.5.3",
     "webpack": "^4.28.3",
     "webpack-stream": "^5.2.1"
   }
