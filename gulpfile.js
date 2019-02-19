@@ -30,12 +30,12 @@ const gulpIf          = require('gulp-if')
 const minimist        = require('minimist')
 const del             = require('del')
 
-
 /*-------------------------------------------------------------
 * INPUT/OUTPUT PATH
 ------------------------------------------------------------ */
 const SRC             = './src/'
 const DEST            = './' + themeName + '/'
+const DEST_TARGET     = DEST + '**/*'
 const DOCUMENT_PATH   = ''
 const PUG_SRC         = './src/pug/**/*.pug'
 const PUG_INC         = '!./src/pug/**/_*.pug'
@@ -123,7 +123,7 @@ gulp.task('img', () => {
 * Clean TASK
 ------------------------------------------------------------ */
 gulp.task('clean', callback => {
-  return del([DEST, SASS_DEST + '**/*.css', IMG_DEST + '**/*'], callback)
+  return del([DEST], callback)
 })
 
 /*-------------------------------------------------------------
@@ -140,34 +140,25 @@ gulp.task('browser-sync', () => {
   })
 })
 
-gulp.task('reload', () => {
+gulp.task('reload', done => {
   browserSync.reload()
+  done()
 })
 
 /*-------------------------------------------------------------
 * WATCH FILES
 ------------------------------------------------------------ */
-gulp.task('watch', () => {
+gulp.task('watch', done => {
 
-  watch([PUG_SRC], event => {
-    gulp.series('pug')
-  })
+  gulp.watch([PUG_SRC], gulp.series('pug', 'reload'))
 
-  watch([SASS_SRC], event => {
-    gulp.series('sass')
-  })
+  gulp.watch([SASS_SRC], gulp.series('sass', 'reload'))
 
-  watch([JS_SRC], event => {
-    gulp.series('webpack')
-  })
+  gulp.watch([JS_SRC], gulp.series('webpack', 'reload'))
 
-  watch([IMG_SRC], event => {
-    gulp.series('img')
-  })
+  gulp.watch([IMG_SRC], gulp.series('img', 'reload'))
 
-  watch([PUG_DEST, SASS_DEST, JS_DEST], event => {
-    gulp.series('reload')
-  })
+  done()
 
 })
 
@@ -175,20 +166,22 @@ gulp.task('watch', () => {
 * DEFAULT TASK
 ------------------------------------------------------------ */
 gulp.task('default', gulp.series(
+  'clean',
   gulp.parallel(
     'pug',
     'sass',
     'webpack',
-    'img',
-    'browser-sync',
-    'watch'
-  )
+    'img'
+  ),
+  'watch',
+  'browser-sync'
 ))
 
 /*-------------------------------------------------------------
 * BUILD TASK
 ------------------------------------------------------------ */
 gulp.task('build', gulp.series(
+  'clean',
   gulp.parallel(
     'pug',
     'sass',
