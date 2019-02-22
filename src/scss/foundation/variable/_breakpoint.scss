@@ -1,5 +1,6 @@
 // min-width
 $_breakpoint-up: (
+  'xs': 'screen and (min-width: 360px)',
   'sm': 'screen and (min-width: 400px)',
   'md': 'screen and (min-width: 768px)',
   'lg': 'screen and (min-width: 1000px)',
@@ -8,8 +9,16 @@ $_breakpoint-up: (
 
 // max-width
 $_breakpoint-down: (
+  'xs': 'screen and (max-width: 359px)',
   'sm': 'screen and (max-width: 399px)',
-  'md': 'screen and (max-width: 767px)',
-  'lg': 'screen and (max-width: 999px)',
-  'xl': 'screen and (max-width: 1199px)',
+  'md': 'screen and (max-width: 599px)',
+  'lg': 'screen and (max-width: 959px)',
+  'xl': 'screen and (max-width: 1279px)',
+) !default;
+
+// between
+$_breakpoint-between: (
+  'sm': 'screen and (min-width:480px) and (max-width:599px)',
+  'md': 'screen and (min-width:600px) and (max-width:959px)',
+  'lg': 'screen and (min-width:960px) and (max-width:1279px)'
 ) !default;

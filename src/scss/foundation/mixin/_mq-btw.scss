@@ -1,0 +1,29 @@
+// @desc - メディアクエリを`max-width`で挿入します。
+// @param {String} $breakpoint [$_default-breakpoint] - 引数に変数のキーワードを渡します。
+// @see - $_breakpoint-between
+// @example scss - Usage
+// .foo {
+//   color: red;
+//   @include _mq-btw {
+//     color: blue;
+//   }
+// }
+// @example css - CSS output
+// .foo {
+//   color: red;
+// }
+// @media screen and (min-width: 768px) and (max-width: 595px) {
+//   .foo {
+//     color: blue;
+//   }
+// }
+@mixin _mq-btw($breakpoint: $_default-breakpoint) {
+  @if map-has-key($_breakpoint-between, $breakpoint) {
+    @media #{inspect(map-get($_breakpoint-between, $breakpoint))} {
+      @content;
+    }
+  } @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+    + "Please make sure it is defined in `$_breakpoint-between` map.";
+  }
+}
