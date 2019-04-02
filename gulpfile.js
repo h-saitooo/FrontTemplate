@@ -15,12 +15,16 @@ const themeName = 'example'
 const gulp            = require('gulp')
 const plumber         = require('gulp-plumber')
 const notify          = require('gulp-notify')
+const cached          = require('gulp-cached')
 const pug             = require('gulp-pug')
 const sass            = require('gulp-sass')
 const postcss         = require('gulp-postcss')
 const autoprefixer    = require('autoprefixer')
 const mqpacker        = require('css-mqpacker')
 const csswring        = require('csswring')
+const imagemin        = require('gulp-imagemin')
+const mozjpeg         = require('imagemin-mozjpeg')
+const pngquant        = require('imagemin-pngquant')
 const webpack         = require('webpack')
 const webpackStream   = require('webpack-stream')
 const webpackConfig   = require('./webpack.config')
@@ -115,8 +119,21 @@ gulp.task('webpack', () => {
 * Images TASK
 ------------------------------------------------------------ */
 gulp.task('img', () => {
-  return gulp.src(IMG_SRC)
-    .pipe(gulp.dest(IMG_DEST))
+  return gulp.src(IMG_SRC, {
+    since: gulp.lastRun(gulp.task('img'))
+  })
+  .pipe(cached('img'))
+  .pipe(imagemin([
+    pngquant({
+      quality: [.6, .7],
+      speed: 1
+    }),
+    mozjpeg({quality: 80}),
+    imagemin.svgo(),
+    imagemin.gifsicle()
+  ]))
+  .pipe(imagemin())
+  .pipe(gulp.dest(IMG_DEST))
 })
 
 /*-------------------------------------------------------------
