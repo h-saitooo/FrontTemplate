@@ -18,6 +18,7 @@ const notify          = require('gulp-notify')
 const cached          = require('gulp-cached')
 const pug             = require('gulp-pug')
 const sass            = require('gulp-sass')
+const packageImporter = require('node-sass-package-importer')
 const postcss         = require('gulp-postcss')
 const autoprefixer    = require('autoprefixer')
 const mqpacker        = require('css-mqpacker')
@@ -92,7 +93,12 @@ gulp.task('sass', () => {
     .pipe(plumber({
       errorHandler: notify.onError('Error: <%= error.message %>')
     }))
-    .pipe(sass({ outputStyle: 'expanded' }))
+    .pipe(sass({
+      importer: packageImporter({
+        extentions: ['.scss', '.sass', '.css']
+      }),
+      outputStyle: 'expanded'
+    }))
     .pipe(postcss([
       autoprefixer({ SUPPORT_BROWSERS }),
       mqpacker()
