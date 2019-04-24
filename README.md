@@ -2,7 +2,7 @@
 
 Frontend Develop Task Template
 
-Use: Node.js <= `v8.9.4`
+Use: Node.js = `v10.14.1`
 
 ## Use Tools
 
