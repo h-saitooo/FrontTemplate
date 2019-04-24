@@ -4,7 +4,7 @@ meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fi
 title #{page.meta.title}
 meta(name="keyword", content!=page.meta.keyword)
 meta(name="description", content!=page.meta.description)
-meta(property="og:type", content!=page.meta.ogType)
+meta(property="og:type", content!=identifier === 'top' || identifier === undefined ? 'website' : 'article')
 meta(property="og:url", content!=page.meta.url)
 meta(property="og:title", content!=page.meta.title)
 meta(property="og:image", content!=page.meta.ogImage)
