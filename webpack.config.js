@@ -1,16 +1,17 @@
-'use strict';
-const path    = require('path');
-const webpack = require('webpack');
-const DEBUG = !process.argv.includes('production');
+const path    = require('path')
+const webpack = require('webpack')
+const DEBUG = !(process.env.NODE_ENV === 'production')
+
+console.log(DEBUG)
 
 module.exports = {
   mode: DEBUG ? 'development' : 'production',
   entry: ['@babel/polyfill', './src/js/index.js'],
   output: {
-    path: `${__dirname}/butter/js`,
+    path: `${__dirname}/example/js`,
     filename: 'bundle.js'
   },
-  devtool: false,
+  devtool: DEBUG ? 'eval' : false,
   module: {
     rules: [
       {
@@ -23,10 +24,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.SourceMapDevToolPlugin({
-      append: DEBUG ? '\n//# sourceMappingURL=[url]' : false,
-      filename: '../sourcemaps/[file].map'
-    }),
     // new webpack.ProvidePlugin({
     //   $: 'jquery',
     //   jQuery: 'jquery'
