@@ -2,13 +2,18 @@ const path    = require('path')
 const webpack = require('webpack')
 const DEBUG = !(process.env.NODE_ENV === 'production')
 
+const distDir = 'example'
+
 console.log(DEBUG)
 
 module.exports = {
   mode: DEBUG ? 'development' : 'production',
-  entry: ['@babel/polyfill', './src/js/index.js'],
+  entry: [
+    '@babel/polyfill',
+    './src/js/index.js'
+  ],
   output: {
-    path: `${__dirname}/example/js`,
+    path: `${__dirname}/${distDir}/js`,
     filename: 'bundle.js'
   },
   devtool: DEBUG ? 'eval' : false,
