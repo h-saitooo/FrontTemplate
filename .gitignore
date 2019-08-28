@@ -4,3 +4,6 @@ node_modules/
 Thumb.db
 
 yarn-error.log
+
+.env
+.envrc

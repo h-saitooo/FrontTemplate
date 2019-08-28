@@ -15,17 +15,17 @@ categories: [utility]
 ```
 */
 @include _responsive(".u-dn") {
- display: none !important;
+  display: none !important;
 }
 
 @include _responsive(".u-db") {
- display: block !important;
+  display: block !important;
 }
 
 @include _responsive(".u-di") {
- display: inline !important;
+  display: inline !important;
 }
 
 @include _responsive(".u-dib") {
- display: inline-block !important;
+  display: inline-block !important;
 }

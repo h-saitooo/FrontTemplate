@@ -7,7 +7,7 @@
 /*-------------------------------------------------------------
 * THEME META
 ------------------------------------------------------------ */
-const themeName = 'example'
+const themeName = 'dist'
 
 /*-------------------------------------------------------------
 * USE MODULES
@@ -20,10 +20,11 @@ const pug                = require('gulp-pug')
 const sass               = require('gulp-sass')
 const packageImporter    = require('node-sass-package-importer')
 const postcss            = require('gulp-postcss')
+const scss               = require('postcss-scss')
 const stylelint          = require('stylelint')
 const autoprefixer       = require('autoprefixer')
 const mqpacker           = require('css-mqpacker')
-const csswring           = require('csswring')
+const cssnano            = require('cssnano')
 const imagemin           = require('gulp-imagemin')
 const mozjpeg            = require('imagemin-mozjpeg')
 const pngquant           = require('imagemin-pngquant')
@@ -41,17 +42,21 @@ const del                = require('del')
 ------------------------------------------------------------ */
 const SRC             = './src/'
 const DEST            = './' + themeName + '/'
+const RESOURCE_DEST   = './' + themeName + '/_assets/'
 const DEST_TARGET     = DEST + '**/*'
 const DOCUMENT_PATH   = ''
 const PUG_SRC         = './src/pug/**/*.pug'
 const PUG_INC         = '!./src/pug/**/_*.pug'
 const PUG_DEST        = DEST + DOCUMENT_PATH
 const SCSS_SRC        = './src/scss/**/*.scss'
-const SCSS_DEST       = DEST + DOCUMENT_PATH + 'css/'
+const SCSS_RET        = './src/scss/'
+const SCSS_DEST       = DEST + DOCUMENT_PATH + '_assets/css/'
 const JS_SRC          = './src/js/**/*.js'
-const JS_DEST         = DEST + DOCUMENT_PATH + 'js/'
+const JS_DEST         = DEST + DOCUMENT_PATH + '_assets/js/'
 const IMG_SRC         = './src/img/**/*'
-const IMG_DEST        = DEST + DOCUMENT_PATH + 'img/'
+const IMG_RAW_DEST    = './src/img/'
+const IMG_RAW         = './src/imgraw/**/*'
+const IMG_DEST        = DEST + DOCUMENT_PATH + '_assets/img/'
 
 const setEnvironment = {
   string: 'env',
@@ -66,8 +71,8 @@ const DEBUG = envSettings.env === 'production'
 
 const THIRD_PARTY_API = {
   tinypng: {
-    key: '',
-    isEnable: true
+    key: process.env.TINYPNG_APIKEY,
+    isEnable: false
   }
 }
 
@@ -76,7 +81,7 @@ const THIRD_PARTY_API = {
 ------------------------------------------------------------ */
 // ベンダープリフィックス付与バージョン
 const SUPPORT_BROWSERS = {
-  browsers: ['last 2 versions', 'ie >= 11']
+  browsers: ['last 2 versions', 'edge >= 14', 'ie >= 11']
 }
 
 /*-------------------------------------------------------------
@@ -89,7 +94,7 @@ function pugCompile() {
     }))
     .pipe(pug({
       basedir: './src/pug/',
-      pretty: false
+      pretty: true
     }))
     .pipe(gulp.dest(PUG_DEST))
 }
@@ -97,6 +102,18 @@ function pugCompile() {
 /*-------------------------------------------------------------
 * SASS TASK
 ------------------------------------------------------------ */
+function lintStyle() {
+  return gulp.src([SCSS_SRC])
+    .pipe(plumber({
+      errorHandler: notify.onError('Error: <%= error.message %>')
+    }))
+    .pipe(postcss([
+      stylelint({ fix: true }),
+    ], { syntax: scss }))
+    .pipe(cached('stylelint'))
+    .pipe(gulp.dest(SCSS_RET))
+}
+
 function scssCompile() {
   return gulp.src([SCSS_SRC])
     .pipe(plumber({
@@ -109,12 +126,11 @@ function scssCompile() {
       outputStyle: 'expanded'
     }))
     .pipe(postcss([
-      stylelint({fix: true}),
       autoprefixer({ SUPPORT_BROWSERS }),
       mqpacker()
     ]))
     .pipe(gulpIf(DEBUG, postcss([
-      csswring()
+      cssnano({ autoprefixer: false })
     ])))
     .pipe(gulp.dest(SCSS_DEST))
 }
@@ -131,15 +147,17 @@ function jsTranspile() {
     .pipe(gulp.dest(JS_DEST))
 }
 
+exports.jsTranspile = gulp.series(jsTranspile)
+
 /*-------------------------------------------------------------
 * Images TASK
 ------------------------------------------------------------ */
-function imageCompressDev(done) {
-  gulp.src(`${IMG_SRC}.{jpg, png, gif, svg}`, {
-    since: gulp.lastRun(imageCompressDev)
+function imageCompressAll(done) {
+  gulp.src(`${IMG_SRC}`, {
+    since: gulp.lastRun(imageCompress)
   })
-    .pipe(cached('imgCompressDev'))
-    .pipe(imagemin([
+    .pipe(cached('imgCompress'))
+    .pipe(gulpIf(DEBUG, imagemin([
       pngquant({
         quality: [.6, .7],
         speed: 1
@@ -147,27 +165,47 @@ function imageCompressDev(done) {
       mozjpeg({quality: 80}),
       imagemin.svgo(),
       imagemin.gifsicle()
-    ]))
-    .pipe(imagemin())
+    ])))
+    .pipe(gulpIf(DEBUG, imagemin()))
     .pipe(gulp.dest(IMG_DEST))
 
   done()
 }
 
-function imageCompressBuild(done) {
-  gulp.src(`${IMG_SRC}.{jpg, gif, svg}`, {
-    since: gulp.lastRun(imageCompressDev)
+function imageCompress(done) {
+  gulp.src(`${IMG_RAW}`, {
+    since: gulp.lastRun(imageCompress)
+  })
+    .pipe(cached('imgCompress'))
+    .pipe(gulpIf(DEBUG, imagemin([
+      pngquant({
+        quality: [.6, .7],
+        speed: 1
+      }),
+      mozjpeg({quality: 80}),
+      imagemin.svgo(),
+      imagemin.gifsicle()
+    ])))
+    .pipe(gulpIf(DEBUG, imagemin()))
+    .pipe(gulp.dest(IMG_DEST))
+
+  done()
+}
+
+function imageCompressTiny(done) {
+  gulp.src(`${IMG_RAW}.{jpg, gif, svg}`, {
+    since: gulp.lastRun(imageCompress)
   })
     .pipe(imagemin([
-      mozjpeg({quality: 80}),
+      mozjpeg({quality: 70}),
       imagemin.svgo(),
       imagemin.gifsicle()
     ]))
     .pipe(imagemin())
     .pipe(gulp.dest(IMG_DEST))
 
-  gulp.src(`${IMG_SRC}.png`, {
-    since: gulp.lastRun(imageCompress)
+  gulp.src(`${IMG_RAW}.png`, {
+    since: gulp.lastRun(imageCompressTiny)
   })
     .pipe(gulpIf(THIRD_PARTY_API.tinypng.isEnable, tinypng({
       key: THIRD_PARTY_API.tinypng.key
@@ -177,19 +215,36 @@ function imageCompressBuild(done) {
   done()
 }
 
+function copyRAWImage() {
+  return gulp.src([IMG_RAW])
+    .pipe(gulp.dest(IMG_RAW_DEST))
+}
+
+function cleanRAWFolder(done) {
+  return del([`${IMG_RAW}/**/*`], done)
+}
+
+exports.imageCompress = gulp.series(
+  THIRD_PARTY_API.tinypng.isEnable ? imageCompressTiny : imageCompress,
+  copyRAWImage,
+  cleanRAWFolder
+)
+
+exports.imageCompressAll = gulp.series(imageCompressAll)
+
 /*-------------------------------------------------------------
-* Clean TASK
+* Copy TASK
 ------------------------------------------------------------ */
 function copyFiles() {
   return gulp.src([SRC + '**/*', `!${PUG_SRC}`, `!${SCSS_SRC}`, `!${JS_SRC}`, `!${IMG_SRC}`], {nodir: true})
-    .pipe(gulp.dest(DEST))
+    .pipe(gulp.dest(RESOURCE_DEST))
 }
 
 /*-------------------------------------------------------------
 * Clean TASK
 ------------------------------------------------------------ */
 function cleanDist(done) {
-  return del([DEST], done)
+  return del([`${PUG_DEST}/**/*.html`, SCSS_DEST, JS_DEST, `${RESOURCE_DEST}/fonts/`, `${RESOURCE_DEST}/json/`], done)
 }
 
 /*-------------------------------------------------------------
@@ -219,11 +274,9 @@ function watchFiles(done) {
 
   gulp.watch([PUG_SRC], gulp.series(pugCompile, bsReload))
 
-  gulp.watch([SCSS_SRC], gulp.series(scssCompile, bsReload))
+  gulp.watch([SCSS_SRC], gulp.series(lintStyle, scssCompile, bsReload))
 
   gulp.watch([JS_SRC], gulp.series(jsTranspile, bsReload))
-
-  gulp.watch([IMG_SRC], gulp.series(imageCompressDev, bsReload))
 
   done()
 
@@ -236,15 +289,14 @@ exports.default = gulp.series(
   cleanDist,
   gulp.parallel(
     pugCompile,
+    lintStyle,
     scssCompile,
     jsTranspile,
-    imageCompressDev,
     copyFiles
   ),
   watchFiles,
   bsInit
 )
-
 
 /*-------------------------------------------------------------
 * BUILD TASK
@@ -253,10 +305,9 @@ exports.build = gulp.series(
   cleanDist,
   gulp.parallel(
     pugCompile,
+    lintStyle,
     scssCompile,
     jsTranspile,
-    imageCompressBuild,
     copyFiles
   )
 )
-

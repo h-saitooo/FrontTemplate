@@ -15,5 +15,5 @@ categories: [utility]
 ```
 */
 .u-sr-only {
- @include _sr-only('important');
+  @include _sr-only('important');
 }

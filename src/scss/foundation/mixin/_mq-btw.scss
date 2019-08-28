@@ -24,6 +24,6 @@
     }
   } @else {
     @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
-    + "Please make sure it is defined in `$_breakpoint-between` map.";
+      + "Please make sure it is defined in `$_breakpoint-between` map.";
   }
 }

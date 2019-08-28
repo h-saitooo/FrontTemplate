@@ -1,0 +1,6 @@
+export TINYPNG_APIKEY=
+export DEVELOP_SFTP_URL=sftp://
+export DEVELOP_SFTP_USER=
+export DEVELOP_SFTP_PASSWORD=
+export DEVELOP_SFTP_SYNCROOT=dist/
+

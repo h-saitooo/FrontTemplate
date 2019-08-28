@@ -16,19 +16,19 @@ categories: [utility]
 ```
 */
 .u-align-left {
- display: block !important;
- margin-left: 0 !important;
- margin-right: auto !important;
+  display: block !important;
+  margin-right: auto !important;
+  margin-left: 0 !important;
 }
 
 .u-align-center {
- display: block !important;
- margin-right: auto !important;
- margin-left: auto !important;
+  display: block !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
 }
 
 .u-align-right {
- display: block !important;
- margin-left: auto !important;
- margin-right: 0 !important;
+  display: block !important;
+  margin-right: 0 !important;
+  margin-left: auto !important;
 }

@@ -40,15 +40,15 @@ $_flag-gutter-small: ($_flag-gutter / 2) !default;
 $_flag-gutter-large: ($_flag-gutter * 2) !default;
 
 .c-flag {
- @include _c-flag();
+  @include _c-flag();
 }
 
 .c-flag__image {
- @include _c-flag__image($_flag-gutter);
+  @include _c-flag__image($_flag-gutter);
 }
 
 .c-flag__body {
- @include _c-flag__body();
+  @include _c-flag__body();
 }
 
 
@@ -56,81 +56,81 @@ $_flag-gutter-large: ($_flag-gutter * 2) !default;
 * 垂直位置を2つのパリエーションから選択します（デフォルトは`top`）。
 */
 .c-flag--middle {
- > .c-flag__image,
- > .c-flag__body {
-   vertical-align: middle;
- }
+  > .c-flag__image,
+  > .c-flag__body {
+    vertical-align: middle;
+  }
 }
 
 .c-flag--bottom {
- > .c-flag__image,
- > .c-flag__body {
-   vertical-align: bottom;
- }
+  > .c-flag__image,
+  > .c-flag__body {
+    vertical-align: bottom;
+  }
 }
 
 /**
 * 要素間の余白を変更します。
 */
 .c-flag--small {
- > .c-flag__image {
-   padding-right: $_flag-gutter-small;
- }
+  > .c-flag__image {
+    padding-right: $_flag-gutter-small;
+  }
 }
 
 .c-flag--large {
- > .c-flag__image {
-   padding-right: $_flag-gutter-large;
- }
+  > .c-flag__image {
+    padding-right: $_flag-gutter-large;
+  }
 }
 
 /**
 * 横並びになった要素を右から左の順番でレイアウトされます（right to left）。
 */
 @include _responsive('.c-flag--reverse') {
- text-align: left;
- direction: rtl;
- > .c-flag__image,
- > .c-flag__body {
-   text-align: left;
-   direction: ltr;
- }
- > .c-flag__image {
-   padding-right: 0;
-   padding-left: $_flag-gutter;
- }
- &.c-flag--small > .c-flag__image {
-   padding-right: 0;
-   padding-left: $_flag-gutter-small;
- }
- &.c-flag--large > .c-flag__image {
-   padding-right: 0;
-   padding-left: $_flag-gutter-large;
- }
+  text-align: left;
+  direction: rtl;
+  > .c-flag__image,
+  > .c-flag__body {
+    text-align: left;
+    direction: ltr;
+  }
+  > .c-flag__image {
+    padding-right: 0;
+    padding-left: $_flag-gutter;
+  }
+  &.c-flag--small > .c-flag__image {
+    padding-right: 0;
+    padding-left: $_flag-gutter-small;
+  }
+  &.c-flag--large > .c-flag__image {
+    padding-right: 0;
+    padding-left: $_flag-gutter-large;
+  }
 }
 
 /**
 * 横並びから縦にレイアウトされます。
 */
 @include _responsive('.c-flag--stack', $_breakpoint-down) {
- display: block;
- > .c-flag__image,
- > .c-flag__body {
-   width: 100%;
-   display: block;
- }
- > .c-flag__image {
-   margin-bottom: $_flag-gutter;
-   padding-right: 0;
-   padding-left: 0;
- }
- > .c-flag__image > img {
-   max-width: 100%;
- }
- &.c-flag--small > .c-flag__image {
-   margin-bottom: $_flag-gutter-small;
- }
- &.c-flag--large > .c-flag__image {
-   margin-bottom: $_flag-gutter-large;
- }
+  display: block;
+  > .c-flag__image,
+  > .c-flag__body {
+    display: block;
+    width: 100%;
+  }
+  > .c-flag__image {
+    margin-bottom: $_flag-gutter;
+    padding-right: 0;
+    padding-left: 0;
+  }
+  > .c-flag__image > img {
+    max-width: 100%;
+  }
+  &.c-flag--small > .c-flag__image {
+    margin-bottom: $_flag-gutter-small;
+  }
+  &.c-flag--large > .c-flag__image {
+    margin-bottom: $_flag-gutter-large;
+  }
 }

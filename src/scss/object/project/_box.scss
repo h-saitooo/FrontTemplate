@@ -28,38 +28,38 @@ categories: [project]
 ```
 */
 .p-box {
- @include _p-box();
+  @include _p-box();
 }
 
 .p-box__image {
- @include _p-box__image();
+  @include _p-box__image();
 }
 
 .p-box__labels {
- @include _p-box__labels();
+  @include _p-box__labels();
 }
 
 .p-box__labels--right-bottom {
- top: auto;
- bottom: 0;
+  top: auto;
+  bottom: 0;
 }
 
 .p-box__labels--left-top {
- right: auto;
- left: 0;
+  right: auto;
+  left: 0;
 }
 
 .p-box__labels--left-bottom {
- top: auto;
- right: auto;
- bottom: 0;
- left: 0;
+  top: auto;
+  right: auto;
+  bottom: 0;
+  left: 0;
 }
 
 .p-box__label {
- @include _p-box__label();
+  @include _p-box__label();
 }
 
 .p-box__content {
- @include _p-box__content();
+  @include _p-box__content();
 }

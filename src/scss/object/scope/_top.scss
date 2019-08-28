@@ -12,13 +12,13 @@ categories: [project]
 ```
 */
 .p-label {
- display: inline-block;
- padding: 0.5em;
- // border-radius: $_radius;
- color: $_color-ui-bg;
- font-size: $_font-size--small;
- line-height: 1;
- text-align: center;
- white-space: nowrap;
- background-color: $_color-link;
+  display: inline-block;
+  padding: 0.5em;
+  font-size: $_font-size--small;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  // border-radius: $_radius;
+  color: $_color-ui-bg;
+  background-color: $_color-link;
 }

@@ -2,15 +2,14 @@ const path    = require('path')
 const webpack = require('webpack')
 const DEBUG = !(process.env.NODE_ENV === 'production')
 
-const distDir = 'example'
+const distDir = 'dist/_assets/'
 
 console.log(DEBUG)
 
 module.exports = {
   mode: DEBUG ? 'development' : 'production',
   entry: [
-    '@babel/polyfill',
-    './src/js/index.js'
+    `${__dirname}/src/js/index.js`
   ],
   output: {
     path: `${__dirname}/${distDir}/js`,

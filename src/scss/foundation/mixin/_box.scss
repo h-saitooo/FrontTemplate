@@ -1,6 +1,6 @@
 @mixin _p-box() {
-  display: block;
   @include _clearfix;
+  display: block;
 }
 
 @mixin _p-box__image($margin-bottom: null) {
@@ -14,12 +14,12 @@
 }
 
 @mixin _p-box__labels() {
+  @include _clearfix;
   position: absolute;
   top: 0;
   right: 0;
   padding-left: 0;
   list-style-type: none;
-  @include _clearfix;
 }
 
 @mixin _p-box__label() {
