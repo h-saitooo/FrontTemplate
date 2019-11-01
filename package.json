@@ -44,5 +44,8 @@
     "webpack": "^4.28.3",
     "webpack-stream": "^5.2.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "minireset.css": "^0.0.6",
+    "normalize.css": "^8.0.1"
+  }
 }
