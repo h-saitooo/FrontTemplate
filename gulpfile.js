@@ -42,7 +42,7 @@ const del                = require('del')
 ------------------------------------------------------------ */
 const SRC             = './src/'
 const DEST            = './' + themeName + '/'
-const RESOURCE_DEST   = './' + themeName + '/_assets/'
+const RESOURCE_DEST   = './' + themeName + '/assets/'
 const DEST_TARGET     = DEST + '**/*'
 const DOCUMENT_PATH   = ''
 const PUG_SRC         = './src/pug/**/*.pug'
@@ -50,13 +50,13 @@ const PUG_INC         = '!./src/pug/**/_*.pug'
 const PUG_DEST        = DEST + DOCUMENT_PATH
 const SCSS_SRC        = './src/scss/**/*.scss'
 const SCSS_RET        = './src/scss/'
-const SCSS_DEST       = DEST + DOCUMENT_PATH + '_assets/css/'
+const SCSS_DEST       = DEST + DOCUMENT_PATH + 'assets/css/'
 const JS_SRC          = './src/js/**/*.js'
-const JS_DEST         = DEST + DOCUMENT_PATH + '_assets/js/'
+const JS_DEST         = DEST + DOCUMENT_PATH + 'assets/js/'
 const IMG_SRC         = './src/img/**/*'
 const IMG_RAW_DEST    = './src/img/'
 const IMG_RAW         = './src/imgraw/**/*'
-const IMG_DEST        = DEST + DOCUMENT_PATH + '_assets/img/'
+const IMG_DEST        = DEST + DOCUMENT_PATH + 'assets/img/'
 
 const setEnvironment = {
   string: 'env',

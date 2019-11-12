@@ -1,6 +1,18 @@
-- var css_path = 'css/'
-- var js_path = 'js/'
-- var img_path = 'img/'
+-
+  function css_path(file_name) {
+    return `${page_layer}assets/css/${file_name}`
+  }
+
+-
+  function js_path(file_name) {
+    return `${page_layer}assets/js/${file_name}`
+  }
+
+-
+  function img_path(file_name) {
+    return `${page_layer}assets/img/${file_name}`
+  }
+
 
 -
   var page = {
