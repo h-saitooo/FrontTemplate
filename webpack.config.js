@@ -2,7 +2,7 @@ const path    = require('path')
 const webpack = require('webpack')
 const DEBUG = !(process.env.NODE_ENV === 'production')
 
-const distDir = 'dist/_assets/'
+const distDir = 'dist/assets/'
 
 console.log(DEBUG)
 

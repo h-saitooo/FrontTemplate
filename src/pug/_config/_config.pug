@@ -1,16 +1,18 @@
+- const resource_directory = 'assets/'
+
 -
   function css_path(file_name) {
-    return `${page_layer}assets/css/${file_name}`
+    return `${page_layer}${resource_directory}css/${file_name}`
   }
 
 -
   function js_path(file_name) {
-    return `${page_layer}assets/js/${file_name}`
+    return `${page_layer}${resource_directory}js/${file_name}`
   }
 
 -
   function img_path(file_name) {
-    return `${page_layer}assets/img/${file_name}`
+    return `${page_layer}${resource_directory}img/${file_name}`
   }
 
 
