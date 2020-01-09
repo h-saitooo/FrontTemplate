@@ -40,23 +40,23 @@ const del                = require('del')
 /*-------------------------------------------------------------
 * INPUT/OUTPUT PATH
 ------------------------------------------------------------ */
-const SRC             = './src/'
-const DEST            = './' + themeName + '/'
-const RESOURCE_DEST   = './' + themeName + '/assets/'
-const DEST_TARGET     = DEST + '**/*'
-const DOCUMENT_PATH   = ''
-const PUG_SRC         = './src/pug/**/*.pug'
-const PUG_INC         = '!./src/pug/**/_*.pug'
-const PUG_DEST        = DEST + DOCUMENT_PATH
-const SCSS_SRC        = './src/scss/**/*.scss'
-const SCSS_RET        = './src/scss/'
-const SCSS_DEST       = DEST + DOCUMENT_PATH + 'assets/css/'
-const JS_SRC          = './src/js/**/*.js'
-const JS_DEST         = DEST + DOCUMENT_PATH + 'assets/js/'
-const IMG_SRC         = './src/img/**/*'
-const IMG_RAW_DEST    = './src/img/'
-const IMG_RAW         = './src/imgraw/**/*'
-const IMG_DEST        = DEST + DOCUMENT_PATH + 'assets/img/'
+const SRC             = `./src/`
+const DEST            = `./${themeName}/`
+const RESOURCE_DEST   = `./${themeName}/assets/`
+const DEST_TARGET     = `${DEST}**/*`
+const DOCUMENT_PATH   = ``
+const PUG_SRC         = `./src/pug/**/*.pug`
+const PUG_INC         = `!./src/pug/**/_*.pug`
+const PUG_DEST        = `${DEST + DOCUMENT_PATH}`
+const SCSS_SRC        = `./src/scss/**/*.scss`
+const SCSS_RET        = `./src/scss/`
+const SCSS_DEST       = `${DEST + DOCUMENT_PATH}assets/css/`
+const JS_SRC          = `./src/js/**/*.js`
+const JS_DEST         = `${DEST + DOCUMENT_PATH}assets/js/`
+const IMG_SRC         = `./src/img/**/*`
+const IMG_RAW_DEST    = `./src/img/`
+const IMG_RAW         = `./src/imgraw/**/*`
+const IMG_DEST        = `${DEST + DOCUMENT_PATH}assets/img/`
 
 const setEnvironment = {
   string: 'env',
@@ -154,9 +154,9 @@ exports.jsTranspile = gulp.series(jsTranspile)
 ------------------------------------------------------------ */
 function imageCompressAll(done) {
   gulp.src(`${IMG_SRC}`, {
-    since: gulp.lastRun(imageCompress)
+    since: gulp.lastRun(imageCompressAll)
   })
-    .pipe(cached('imgCompress'))
+    .pipe(cached('imageCompressAll'))
     .pipe(gulpIf(DEBUG, imagemin([
       pngquant({
         quality: [.6, .7],
@@ -172,9 +172,9 @@ function imageCompressAll(done) {
   done()
 }
 
-function imageCompress(done) {
+function compressPNG(done) {
   gulp.src(`${IMG_RAW}`, {
-    since: gulp.lastRun(imageCompress)
+    since: gulp.lastRun(compressPNG)
   })
     .pipe(cached('imgCompress'))
     .pipe(gulpIf(DEBUG, imagemin([
@@ -192,9 +192,9 @@ function imageCompress(done) {
   done()
 }
 
-function imageCompressTiny(done) {
-  gulp.src(`${IMG_RAW}.{jpg, gif, svg}`, {
-    since: gulp.lastRun(imageCompress)
+function compressTinyPNG(done) {
+  gulp.src(`${IMG_SRC}.{jpg, gif, svg}`, {
+    since: gulp.lastRun(compressTinyPNG)
   })
     .pipe(imagemin([
       mozjpeg({quality: 70}),
@@ -224,10 +224,8 @@ function cleanRAWFolder(done) {
   return del([`${IMG_RAW}/**/*`], done)
 }
 
-exports.imageCompress = gulp.series(
-  THIRD_PARTY_API.tinypng.isEnable ? imageCompressTiny : imageCompress,
-  copyRAWImage,
-  cleanRAWFolder
+exports.imageCompressPNG = gulp.series(
+  THIRD_PARTY_API.tinypng.isEnable ? compressTinyPNG : compressPNG
 )
 
 exports.imageCompressAll = gulp.series(imageCompressAll)
@@ -308,6 +306,7 @@ exports.build = gulp.series(
     lintStyle,
     scssCompile,
     jsTranspile,
+    imageCompressAll,
     copyFiles
   )
 )

@@ -1,0 +1,17 @@
+{
+  "Insert Background Properties": {
+    "prefix": "ibg",
+    "body": "background-image: url(#{$_img-path}$1);\nbackground-repeat: no-repeat;\nbackground-position: center;\nbackground-size: cover;$0",
+    "description": "Insert Image directory"
+  },
+  "Expand MediaQueryMixin SP": {
+    "prefix": "mqd",
+    "body": "@include _mq-down('md') {$0}",
+    "description": "Insert Image directory"
+  },
+  "Expand MediaQueryMixin PC": {
+    "prefix": "mqu",
+    "body": "@include _mq-up('md') {$0}",
+    "description": "Insert Image directory"
+  }
+}
